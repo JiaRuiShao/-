@@ -1,0 +1,42 @@
+<idea-plugin>
+  <id>wtf.halt.earlgrey.theme</id>
+  <name>Earl Grey UI Theme</name>
+  <version>@VERSION@</version>
+  <vendor email="" url="https://earl-grey.halt.wtf/">Earl Grey (unofficial port)</vendor>
+
+  <description><![CDATA[
+    A gentle, low-contrast light UI theme for IntelliJ-based IDEs, following the design
+    principles of Earl Grey (https://earl-grey.halt.wtf/). Aligns tool window backgrounds
+    (Project, Structure, etc.), editor syntax highlighting, and Java/file-type node icons
+    with the Earl Grey palette. Java syntax highlighting is matched token by token to the
+    Earl Grey VS Code theme with Red Hat's Java extension. Borderless, solid-color icon style
+    throughout, except folder icons which use an outlined style. Custom-built for personal use;
+    some New UI (expui) icon paths were reverse-engineered via UI Inspector rather than sourced
+    from official JetBrains assets, so exact vector fidelity to stock icons is not guaranteed.
+  ]]></description>
+
+  <change-notes><![CDATA[
+    <p>@VERSION@</p>
+    <ul>
+      <li>Java highlighting now matches the Earl Grey VS Code theme: method names, type parameters,
+          annotations, fields, constants, parameters, record components, Javadoc tags and punctuation were
+          previously falling back to IDE defaults because the scheme used key names IntelliJ does not know.</li>
+      <li>Every Java color key is now set explicitly, so no stock colors (purple fields, underlined reassigned
+          variables) show through.</li>
+      <li>Diff, search, inlay hint, inspection and console colors from the Earl Grey palette.</li>
+      <li>Colors for the Rainbow Brackets (Lite) plugin; set its number of colors to 6 to get VS Code's
+          bracket pair colors.</li>
+      <li>If <i>Settings | Editor | Color Scheme</i> lists Earl Grey more than once: <b>EarlGrey</b> (no space) is this
+          plugin's scheme. Entries named <b>Earl Grey</b> or <b>Earl Grey copy</b> are imported or copied schemes;
+          select one and use the gear menu's <i>Delete</i> to remove it.</li>
+    </ul>
+  ]]></change-notes>
+
+  <idea-version since-build="203.0"/>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <themeProvider id="EarlGreyTheme" path="/earlgrey.theme.json"/>
+  </extensions>
+</idea-plugin>
