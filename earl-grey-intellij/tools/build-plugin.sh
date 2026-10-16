@@ -4,11 +4,11 @@
 # Layout matches the published 1.1.0 jar: /earlgrey.theme.json, /EarlGrey.xml and the node icons at the jar root,
 # so existing installs keep their paths. The editor scheme is generated from "Earl Grey.icls" and keeps the
 # published scheme name "EarlGrey" (renaming it would leave users with an orphaned copy of the old name).
-# Usage: tools/build-plugin.sh [version]   (default 1.2.0). Needs Python 3 and a JDK for the `jar` tool.
+# Usage: tools/build-plugin.sh [version]   (default: plugin/version.txt). Needs Python 3 and a JDK for the `jar` tool.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${1:-1.2.0}"
+VERSION="${1:-$(tr -d '[:space:]' < "$ROOT/plugin/version.txt")}"
 STAGE="$ROOT/build/plugin"
 OUT="$ROOT/build/EarlGreyTheme-$VERSION.jar"
 
@@ -30,9 +30,11 @@ root = tree.getroot()
 NAME = "EarlGrey"  # the name published in 1.0/1.1: users' selected scheme is stored under it
 root.set("name", NAME)
 meta = root.find("metaInfo")
+# No "originalScheme": IntelliJ writes it on the visible _@user_ copy itself (EditorColorsSchemeImpl.clone ->
+# setDefaultMetaInfo), and in an imported copy it makes the import borrow this scheme's label (a lookalike duplicate).
 for prop in meta.findall("property"):
     if prop.get("name") == "originalScheme":
-        prop.text = NAME  # must be the scheme's own name: the _@user_ copy takes its display name from it
+        meta.remove(prop)
 desc = ET.SubElement(meta, "property", {"name": "description"})
 desc.text = ("A gentle, low-contrast light theme, following the design principles of Earl Grey "
              "(https://earl-grey.halt.wtf/).")
